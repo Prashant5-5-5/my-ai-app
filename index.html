@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>🔥 My AI App</h2>
+
+<input id="t" placeholder="type prompt">
+<button onclick="chat()">Chat</button>
+<button onclick="img()">Image</button>
+
+<p id="out"></p>
+<img id="image" width="300">
+
+<script>
+async function chat(){
+ let r = await fetch("/chat",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({prompt:t.value})
+ })
+ let d = await r.json()
+ out.innerText = d.choices[0].message.content
+}
+
+async function img(){
+ let r = await fetch("/image",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({prompt:t.value})
+ })
+ let d = await r.json()
+ image.src = d.data[0].url
+}
+</script>
+
+</body>
+</html>
